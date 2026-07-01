@@ -42,11 +42,11 @@ pip install .
 
 ### 3. Add Environment Variables
 
-Create a file named `.env` in the root directory and add your Gemini API Key:
+Create a file named `.env` in the root directory and add your API Key:
 
 ```env
 MODEL=your_model_name
-GEMINI_API_KEY=your_gemini_api_key_here
+your_api_key=api_key_here
 ```
 
 ## 💻 How to Use
