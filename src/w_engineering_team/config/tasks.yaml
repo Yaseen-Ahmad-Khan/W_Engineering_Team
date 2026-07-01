@@ -1,0 +1,159 @@
+planning_task:
+  description: >
+    Analyze the user's requirements and create a complete implementation plan.
+
+    User requirement:
+    {user_requirement}
+
+    Responsibilities:
+    - Understand the requested application.
+    - Decide the full-stack architecture.
+    - Define frontend pages/components.
+    - Define backend API endpoints.
+    - Define frontend/backend integration.
+    - Define the exact folder and file structure.
+    - Mention assumptions.
+
+    The generated project must use this structure:
+    generated/frontend/
+    generated/backend/
+
+    Do not write code in this task.
+
+  expected_output: >
+    A clear engineering plan with architecture, frontend responsibilities,
+    backend responsibilities, API design, folder structure, and assumptions.
+
+  agent: lead_engineer
+
+
+frontend_task:
+  description: >
+    Build the complete React frontend according to the engineering plan.
+
+    IMPORTANT:
+    You must use the available file-writing tool to create actual files.
+    Do not only describe the files.
+    Do not put code only in your final answer.
+
+    Requirements:
+    - Use React with Vite.
+    - Place all frontend files inside generated/frontend/.
+    - Create package.json, index.html, vite.config.js, postcss.config.js, tailwind.config.js, src/main.jsx,
+      src/App.jsx, src/api.js, and src/styles.css.
+    - You MUST create separate files for all required components inside `src/components/` (e.g., Header.jsx, TaskBoard.jsx, Features.jsx, ContactForm.jsx, Footer.jsx) based on the engineering plan and import them into `src/App.jsx` to build a complete website.
+    - Connect to the backend API at http://localhost:8000.
+    - Use clean components and readable code.
+    - Do not create backend files.
+    - You MUST implement working interactive functionality for all buttons and forms (e.g. wire up the dark‑mode toggle button to toggle dark‑mode state on the container, add actual click handlers/scrolling to the "Get Started" call‑to‑action, and handle form input changes and submissions via axios). Do NOT leave interactive elements as static placeholders without event handlers.
+
+    TailwindCSS and Build Setup:
+    - You MUST create `postcss.config.js` inside `generated/frontend/` with:
+      ```javascript
+      export default {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
+      };
+      ```
+    - In `src/styles.css`, you must import tailwind base/components/utilities and define custom styles (e.g., `.glass`, animations).
+    - After writing all frontend files, you MUST run the "Run Command" tool to execute:
+      1. `npm install` inside `generated/frontend/`
+      2. `npm run build` inside `generated/frontend/`
+    - If the build fails (e.g. syntax error, missing imports, tailwind compiler issues), read the build logs, fix the source code, and run `npm run build` again until it passes successfully with 0 errors.
+
+    Design Guidelines (premium UI):
+    - Use TailwindCSS with dark-mode enabled (`darkMode: 'class'`) and a modern dark palette with glowing accents (e.g., violet/indigo gradients and neon teal highlights).
+    - Add a global stylesheet (`src/styles.css`) that imports Tailwind base/components and defines a `.glass` utility for glass‑morphic cards (semi-transparent background, subtle border, backdrop-blur, and soft drop-shadow).
+    - Apply the Inter Google Font for all text.
+    - Create a visually stunning hero section with a gradient background, a call‑to‑action button, and a glassmorphic mock task board.
+    - Split UI into reusable components: Header, TaskBoard, Features, ContactForm, Footer.
+    - Use subtle hover/transition animations on cards and buttons.
+    - Ensure responsive, mobile‑first layout (grid, flex).
+    - Insert SEO‑friendly `<title>` and `<meta description>` tags in `index.html`.
+    - Include a dark‑mode toggle element.
+
+  expected_output: >
+    A short summary of the frontend files actually created inside
+    generated/frontend/ and confirmation that the `npm run build` command succeeded with 0 errors.
+
+  agent: frontend_engineer
+  context:
+    - planning_task
+
+
+backend_task:
+  description: >
+    Build the complete Python backend according to the engineering plan.
+
+    IMPORTANT:
+    You must use the available file-writing tool to create actual files.
+    Do not only describe the files.
+    Do not put code only in your final answer.
+
+    Requirements:
+    - Use FastAPI.
+    - Place all backend files inside generated/backend/.
+    - Create main.py, requirements.txt, and tests/test_api.py.
+    - Enable CORS for http://localhost:5173.
+    - Create API endpoints required by the frontend.
+    - Do not create frontend files.
+
+  expected_output: >
+    A short summary of the backend files actually created inside
+    generated/backend/.
+
+  agent: backend_engineer
+  context:
+    - planning_task
+    - frontend_task
+
+
+testing_task:
+  description: >
+    Review the generated application.
+
+    IMPORTANT:
+    You must use the available directory/file reading tools to inspect actual
+    files inside generated/.
+    Do not judge only from previous task outputs.
+    You must use the "Run Command" tool to verify the project status if needed.
+
+    Check:
+    - generated/frontend exists and builds successfully with `npm run build`
+    - generated/backend exists
+    - required frontend files exist
+    - required backend files exist
+    - frontend API calls match backend endpoints
+    - CORS is enabled
+    - imports look correct
+    - obvious bugs
+    - missing run instructions
+    - visual design elements (compiled CSS includes `.glass`, responsive styles, custom palette, Inter font, SEO tags)
+    - interactive UI elements (like the dark‑mode toggle button, "Get Started" buttons, forms, and input fields) have actual working event handlers (e.g. onClick, onSubmit, onChange) and proper state hook configurations in the code, rather than being static placeholders without function.
+
+  expected_output: >
+    A QA report in this exact format:
+
+    STATUS:
+    PASS or FAIL
+
+    FRONTEND ISSUES:
+    - issue or None
+
+    BACKEND ISSUES:
+    - issue or None
+
+    GENERAL ISSUES:
+    - issue or None
+
+    RECOMMENDED FIXES:
+    - fix or None
+
+  agent: qa_tester
+
+  context:
+    - planning_task
+    - frontend_task
+    - backend_task
