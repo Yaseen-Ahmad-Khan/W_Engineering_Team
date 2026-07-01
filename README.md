@@ -8,8 +8,8 @@ The crew consists of multiple AI agents that work together to analyze the user's
 
 Before getting started, make sure you have installed:
 
-- **Python 3.10 - 3.13**
-- **Node.js & npm** (required to run and verify the frontend build)
+* **Python 3.10 - 3.13**
+* **Node.js & npm** (required to run and verify the frontend build)
 
 ## 🚀 Installation & Setup
 
@@ -45,13 +45,25 @@ pip install .
 Create a file named `.env` in the root directory and add your Gemini API Key:
 
 ```env
-MODEL=gemini/gemini-3.1-flash-lite
+MODEL=your_model_name
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
 ## 💻 How to Use
 
-### 1. Run the Crew
+### 1. Enter Your Requirements
+
+Open `src/W_Engineering_team/main.py` and replace the value of `user_requirement` in the `inputs` dictionary with your own project requirements. A proper frontend and backend requirement is highly encouraged.
+
+Example:
+
+```python
+inputs = {
+    "user_requirement": "Build a responsive coffee shop website with a React frontend and FastAPI backend."
+}
+```
+
+### 2. Run the Crew
 
 To start the autonomous team and generate the full-stack codebase:
 
@@ -61,7 +73,7 @@ crewai run
 
 Once completed, the full-stack code will be generated inside the `generated/` directory.
 
-### 2. Run the Generated Backend
+### 3. Run the Generated Backend
 
 Open a new terminal window:
 
@@ -73,7 +85,7 @@ python main.py
 
 The FastAPI backend will start running on http://localhost:8000.
 
-### 3. Run the Generated Frontend
+### 4. Run the Generated Frontend
 
 Open another terminal window:
 
