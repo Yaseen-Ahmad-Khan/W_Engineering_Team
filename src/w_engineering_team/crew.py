@@ -26,8 +26,8 @@ safety_settings = [
 ]
 
 default_llm = LLM(
-    model="your-model-name",
-    api_key=os.environ.get("your-api-key"),
+    model=os.environ.get("MODEL"),
+    api_key=os.environ.get("your_api_key"),
     num_retries=5,
     safety_settings=safety_settings
 )
